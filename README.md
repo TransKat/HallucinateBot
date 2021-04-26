@@ -1,0 +1,3 @@
+# HallucinateBot
+
+Multipurpose Discord bot
