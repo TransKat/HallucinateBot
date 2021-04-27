@@ -70,7 +70,7 @@ class fun(commands.Cog):
         elif value == 6:
             await ctx.send("Your body snapped in half on impact. You bled out shortly and died.")
         elif value == 7:
-            await ctx.send("You hit a tree shortly before hitting the gorund, breaking your fall for a second. You lived, but broke your left leg.")
+            await ctx.send("You hit a tree shortly before hitting the ground, breaking your fall for a second. You lived, but broke your left leg.")
         elif value == 8:
             await ctx.send("You clip into the ground upon hitting it, and somehow survive.")
         elif value == 9:
