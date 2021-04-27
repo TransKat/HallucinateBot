@@ -7,34 +7,43 @@ class moderation(commands.Cog):
         self.bot = bot
         self._last_member = None
 
-    @commands.command(brief="Kicks a user from the current server.")
-    @commands.has_permissions(kick_members=True)
-    async def kick(ctx, user: discord.Member, *, reason=None):
-        await user.kick(reason=reason)
-        await ctx.send(f"{user} have been kicked sucessfully")
-        await ctx.message.add_reaction("✅")    
+    #@commands.command(brief="Kicks a user from the current server.")
+    #@commands.has_permissions(kick_members=True)
+    #async def kick(ctx, user: discord.Member, *, reason=None):
+        #await user.kick(reason=reason)
+        #await ctx.send(f"{user} have been kicked sucessfully")
+        #await ctx.message.add_reaction("✅")    
 
-    @commands.command(brief="Bans the mentioned memeber from the current server.")
+    @commands.command(brief="Bans someone")
     @commands.has_permissions(ban_members=True)
-    async def ban(ctx, user: discord.Member, *, reason=None):
-        await user.ban(reason=reason)
-        await ctx.send(f"{user} have been bannned sucessfully")
-        await ctx.message.add_reaction("✅")
-    
-    @commands.command(brief="Unbans a user.")
-    @commands.has_permissions(ban_members=True)
-    async def unban(ctx, *, member):
-        banned_users = await ctx.guild.bans()
-        member_name, member_discriminator = member.split('#')
-
-        for ban_entry in banned_users:
-            user = ban_entry.user
-  
-        if (user.name, user.discriminator) == (member_name, member_discriminator):
-            await ctx.guild.unban(user)
-            await ctx.send(f"{user} have been unbanned sucessfully")
-            return
+    async def ban(self, ctx, user:discord.Member, *, reason=None):
+        """Casts users out of heaven."""
+        
+        if not user: # checks if there is a user
+            return await ctx.send("You must specify a user")
+        
+        try: # Tries to ban user
+            await ctx.guild.ban(user, reason=reason)
+            await ctx.send(f"{user.mention} was cast out of the server for {reason}.")
             await ctx.message.add_reaction("✅")
+        except discord.Forbidden:
+            return await ctx.send("Are you trying to ban someone higher than the bot")
+    
+    @commands.command(brief="Kicks someone from the server")
+    @commands.has_permissions(ban_members=True)
+    async def kick(self, ctx, user:discord.Member, *, reason=None):
+        """Casts users out of heaven."""
+        
+        if not user: # checks if there is a user
+            return await ctx.send("You must specify a user")
+        
+        try: # Tries to ban user
+            await ctx.guild.kick(user, reason=reason)
+            await ctx.send(f"{user.mention} was cast out of the server for {reason}.")
+            await ctx.message.add_reaction("✅")
+        except discord.Forbidden:
+            return await ctx.send("Are you trying to kick someone higher than the bot")
+    
 
     @commands.command(brief="Purges x amount of messages.")
     @commands.has_permissions(manage_messages=True)
@@ -48,6 +57,8 @@ class moderation(commands.Cog):
     async def create_channel(self, ctx, name=None, *, description=None):
         await ctx.guild.create_text_channel(name, topic=description)
         await ctx.send(f"Channel {name} created")
+
+
 
 def setup(bot):
     bot.add_cog(moderation(bot))
