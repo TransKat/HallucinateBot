@@ -34,8 +34,15 @@ class user(commands.Cog):
 
     @commands.command(brief="Invites the bot to your server")
     async def invite(self, ctx):
-        await ctx.send("New server :D")
-        await ctx.send("https://discord.com/api/oauth2/authorize?client_id=764513869526728705&permissions=8&scope=bot")
+        embed = discord.Embed(
+            title = 'Oooh, a new server!',
+            description = "Want to add me to your server? Here\'s my link! \n[🤖 Bot invite](🛠 https://discord.com/api/oauth2/authorize?client_id=764513869526728705&permissions=8&scope=bot) \n[🙋‍♂️ Join our server!](https://discord.gg/VYEMZrkMRT) \n[GitHub](https://github.com/TransKat/HallucinateBot/)",
+            colour = discord.Colour.green()
+
+        )
+        embed.set_footer(text="Hallucinate")
+        await ctx.send(embed=embed)
+        await ctx.message.add_reaction("✅")
 
 def setup(bot):
     bot.add_cog(user(bot))
