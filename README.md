@@ -1,3 +1,3 @@
 # HallucinateBot
 
-Multipurpose Discord bot
+Multipurpose Discord bot made in discord.py
