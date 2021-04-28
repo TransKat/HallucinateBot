@@ -58,6 +58,12 @@ class moderation(commands.Cog):
         await ctx.guild.create_text_channel(name, topic=description)
         await ctx.send(f"Channel {name} created")
 
+    @commands.command(brief="Direct messages a user.")
+    @commands.has_permissions(ban_members=True)
+    async def dm(ctx, member: discord.Member, *, content):
+        channel = await member.create_dm()
+        await channel.send(content)
+        await ctx.message.delete
 
 
 def setup(bot):
