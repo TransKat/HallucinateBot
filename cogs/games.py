@@ -77,7 +77,7 @@ class games(commands.Cog):
                         await ctx.send(embed=embed)
                         break
 
-    @commands.command()
+    @commands.command(brief="Can you guess the number?s")
     async def jackpot(self, ctx, guess=None):
         num = random.randint(0,10)
         if int(guess) == num:
@@ -86,6 +86,8 @@ class games(commands.Cog):
             await ctx.send("You need to guess something zero to ten!")
         elif int(guess) >= 11:
             await ctx.send("You need to guess something zero to ten!")
+        elif int(guess) <= -1:
+            await ctx.send("You need to guess something zero to ten!") 
         else:
             await ctx.send(f"Aw. You lost. The number was {num}, while you guessed {guess}.")
 
