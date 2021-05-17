@@ -17,6 +17,17 @@ with open('./token.txt') as f:
 
 client = commands.Bot(command_prefix = ["h!","h.","h$",")"],case_insensitive=True)
 
+class MyHelpCommand(commands.MinimalHelpCommand):
+    async def send_pages(self):
+        destination = self.get_destination()
+        e = discord.Embed(color=discord.Color.blurple(), description='')
+        for page in self.paginator.pages:
+            e.description += page
+        await destination.send(embed=e)
+
+client.help_command = MyHelpCommand()
+
+
 @client.event
 async def on_ready():
     print('Bot is online.')
