@@ -1,4 +1,4 @@
-## Hallucinate - 21.04
+## Hallucinate - 21.05
 
 
 import discord
@@ -8,20 +8,12 @@ import json
 import random
 from discord.ext import commands
 
-version = "Hallucinate 21.04 - Rewrite - h! or h."
+version = "Hallucinate 21.05 - Resurgance - h! or h."
 
 # loads the token from token.txt
 
 with open('./token.txt') as f:
     TOKEN = f.read()
-
-# gets the server prefix and stores it in a variable
-
-def get_prefix(client, message):
-    with open('prefixes.json', 'r') as f:
-        prefixes = json.load(f)
-
-    return prefixes[str(message.guild.id)]
 
 client = commands.Bot(command_prefix = ["h!","h.","h$",")"],case_insensitive=True)
 
@@ -31,32 +23,6 @@ async def on_ready():
     activity = discord.Game(name=f"{version}", type=0)
     await client.change_presence(status=discord.Status.online, activity=activity)
     return
-
-@client.event
-async def on_guild_join(guild):
-    with open('prefixes.json', 'r') as f:
-        prefixes = json.load(f)
-
-    prefixes[str(guild.id)]  = 'h!'  
-
-    with open('prefixes.json', 'w') as f:
-        json.dump(prefixes, f, indent = 4)
-
-
-
-
-    print(f"Joined {guild} ID: {guild.id}")
-
-
-@client.event
-async def on_guild_remove(guild):
-    with open('prefixes.json', 'r') as f:
-        prefixes = json.load(f)
-
-    prefixes.pop(str(guild.id))
-
-    with open('prefixes.json', 'w') as f:
-        json.dump(prefixes, f, indent=4)
 
 #discord.py error handler
 @client.event
@@ -133,21 +99,6 @@ for filename in os.listdir('./cogs'):
     if filename.endswith('.py'):
         client.load_extension(f'cogs.{filename[:-3]}')
 
-
-
-## changes prefix. deprecated feature.
-
-##@client.command(name="Prefix",brief="Changes the server prefix",hidden=True)
-##@commands.has_permissions(ban_members = True)
-##async def changeprefix(ctx, prefix): 
-    ##with open('prefixes.json', 'r') as f:
-        ##prefixes = json.load(f)
-
-    ##prefixes[str(ctx.guild.id)] = prefix  
-
-    ##with open('prefixes.json', 'w') as f:
-        ##json.dump(prefixes, f, indent = 4)
-    ##await ctx.send(f"Changed the server prefix to {prefix}")
 
 @client.command()
 @commands.is_owner()
